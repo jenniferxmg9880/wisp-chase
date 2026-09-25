@@ -36,7 +36,6 @@ body {
   position: relative;
 }
 
-/* faint canopy silhouette band across the top */
 body::before {
   content: "";
   position: fixed;
@@ -98,7 +97,6 @@ h1 {
   margin: 0 auto 2.6rem;
 }
 
-/* ---- game arena ---- */
 .arena-frame {
   position: relative;
   margin: 0 auto;
@@ -127,7 +125,6 @@ h1 {
 }
 .hint.is-visible { opacity: 0.85; }
 
-/* ---- flag reveal overlay ---- */
 .reveal-overlay {
   position: fixed;
   inset: 0;
@@ -193,7 +190,6 @@ footer {
   z-index: 1;
 }
 
-/* ---- glowing mushroom decorations ---- */
 .mushroom-deco {
   position: fixed;
   z-index: 0;
