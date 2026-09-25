@@ -1,12 +1,17 @@
 :root {
-  --void: #05070a;
-  --void-deep: #020304;
+  --void: #050e0c;
+  --void-deep: #030807;
+  --canopy: #0b201a;
+  --moss: #2e4a3a;
   --bone: #e4ece8;
   --bone-dim: #a9b8b2;
   --wisp: #7ef0d6;
   --wisp-bright: #c9fff0;
   --violet: #6d6f9e;
   --violet-bright: #9b9dd6;
+  --firefly: #d9e87a;
+  --firefly-bright: #f4ffb8;
+  --mushroom: #e8a15a;
 
   --font-display: 'Cinzel', serif;
   --font-body: 'Cormorant Garamond', serif;
@@ -19,14 +24,45 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(109, 111, 158, 0.18), transparent 55%),
-    radial-gradient(ellipse at 20% 90%, rgba(126, 240, 214, 0.06), transparent 50%),
-    var(--void);
+    radial-gradient(ellipse at 50% -15%, rgba(46, 74, 58, 0.35), transparent 50%),
+    radial-gradient(ellipse at 12% 30%, rgba(11, 32, 26, 0.9), transparent 55%),
+    radial-gradient(ellipse at 88% 40%, rgba(11, 32, 26, 0.9), transparent 55%),
+    radial-gradient(ellipse at 20% 95%, rgba(217, 232, 122, 0.05), transparent 45%),
+    linear-gradient(180deg, #0a1c17 0%, #071510 45%, #040c0a 75%, #020504 100%);
   color: var(--bone);
   font-family: var(--font-body);
   font-size: 19px;
   overflow-x: hidden;
+  position: relative;
 }
+
+/* faint canopy silhouette band across the top */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 34vh;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(3,8,7,0.9) 0 9vw, transparent 9vw),
+    radial-gradient(circle at 22% -6%, rgba(3,8,7,0.85) 0 11vw, transparent 11vw),
+    radial-gradient(circle at 40% 2%, rgba(3,8,7,0.8) 0 7vw, transparent 7vw),
+    radial-gradient(circle at 58% -4%, rgba(3,8,7,0.85) 0 10vw, transparent 10vw),
+    radial-gradient(circle at 76% 0%, rgba(3,8,7,0.9) 0 9vw, transparent 9vw),
+    radial-gradient(circle at 94% -5%, rgba(3,8,7,0.85) 0 8vw, transparent 8vw);
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+#fireflies {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wrap { position: relative; z-index: 1; }
 
 .wrap {
   max-width: 900px;
@@ -66,11 +102,11 @@ h1 {
 .arena-frame {
   position: relative;
   margin: 0 auto;
-  border: 1px solid rgba(126, 240, 214, 0.22);
+  border: 1px solid rgba(217, 232, 122, 0.2);
   border-radius: 4px;
-  background: radial-gradient(ellipse at center, rgba(126, 240, 214, 0.03), var(--void-deep) 75%);
+  background: radial-gradient(ellipse at center, rgba(46, 74, 58, 0.15), var(--void-deep) 78%);
   overflow: hidden;
-  box-shadow: 0 0 60px rgba(109, 111, 158, 0.1) inset;
+  box-shadow: 0 0 60px rgba(11, 32, 26, 0.4) inset, 0 0 40px rgba(0,0,0,0.5);
 }
 
 #arena {
@@ -153,6 +189,23 @@ footer {
   font-size: 11px;
   letter-spacing: 0.08em;
   color: rgba(228, 236, 232, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- glowing mushroom decorations ---- */
+.mushroom-deco {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.mushroom-deco svg { display: block; }
+.mushroom-deco.tl { top: 6vh; left: 2vw; width: 68px; transform: rotate(-6deg); }
+.mushroom-deco.br { bottom: 4vh; right: 3vw; width: 56px; transform: rotate(8deg) scaleX(-1); }
+
+@media (max-width: 700px) {
+  .mushroom-deco { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

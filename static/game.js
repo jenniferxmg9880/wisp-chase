@@ -1,3 +1,9 @@
+/* ============================================================
+   The Restless Wisp — game logic
+   Flees from cursor movement. Grows calm, then curious, the
+   longer the cursor holds still nearby. Catching it (click while
+   close AND calm) asks the server to verify and release the flag.
+   ============================================================ */
 (function () {
   "use strict";
 
@@ -32,10 +38,10 @@
   var FLEE_FORCE = 900;
   var DAMPING = 0.90;
   var MAX_SPEED = 620;
-  var REQUIRED_STILL_MS = 1600;   
+  var REQUIRED_STILL_MS = 1600;   // how long cursor must hold still to fully calm the wisp
   var CATCH_RADIUS = 26;
-  var CATCH_WARINESS = 0.18;      
-  var DRIFT_FORCE = 55;          
+  var CATCH_WARINESS = 0.18;      // wariness must drop below this to allow a catch
+  var DRIFT_FORCE = 55;           // gentle pull toward cursor once calm
 
   var wariness = 1;
 
@@ -65,7 +71,7 @@
   });
 
   var hintTimer = 0;
-  var chaseTime = 0; 
+  var chaseTime = 0; // accumulates while wariness stays high (i.e. still chasing)
 
   function updateHints(dt) {
     if (wariness > 0.6) {
@@ -84,6 +90,7 @@
   }
 
   function step(dt) {
+    // stillness tracking
     var movedDist = Math.hypot(mouse.x - lastMouse.x, mouse.y - lastMouse.y);
     if (!mouse.active || movedDist > 2.2) {
       stillMs = 0;
@@ -103,16 +110,19 @@
       wisp.vx += (dx / dist) * fleeStrength * dt / 1000;
       wisp.vy += (dy / dist) * fleeStrength * dt / 1000;
 
+      // once calm, a gentle pull inward instead of fleeing
       var calm = 1 - wariness;
       if (calm > 0.15) {
         wisp.vx -= (dx / dist) * DRIFT_FORCE * calm * dt / 1000;
         wisp.vy -= (dy / dist) * DRIFT_FORCE * calm * dt / 1000;
       }
     } else {
+      // idle drift when cursor is far or inactive
       wisp.vx += (Math.random() - 0.5) * 18 * dt / 1000;
       wisp.vy += (Math.random() - 0.5) * 18 * dt / 1000;
     }
 
+    // damping + speed cap
     wisp.vx *= DAMPING;
     wisp.vy *= DAMPING;
     var speed = Math.hypot(wisp.vx, wisp.vy);
@@ -124,6 +134,7 @@
     wisp.x += wisp.vx * dt / 1000;
     wisp.y += wisp.vy * dt / 1000;
 
+    // bounce off walls
     if (wisp.x < wisp.r) { wisp.x = wisp.r; wisp.vx *= -0.6; }
     if (wisp.x > W - wisp.r) { wisp.x = W - wisp.r; wisp.vx *= -0.6; }
     if (wisp.y < wisp.r) { wisp.y = wisp.r; wisp.vy *= -0.6; }
@@ -135,6 +146,7 @@
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
+    // faint trailing glow
     var calmGlow = clamp(1 - wariness, 0, 1);
     var radius = wisp.r + calmGlow * 6;
     var glow = ctx.createRadialGradient(wisp.x, wisp.y, 0, wisp.x, wisp.y, radius * 5);
