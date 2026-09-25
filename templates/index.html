@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Restless Wisp &mdash; Charms Wing</title>
+<meta name="description" content="A charms exercise: catch the wisp, if it will let you.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">Charms Wing &middot; Practical Exercise</span>
+  <h1>The Restless Wisp</h1>
+  <p class="sub">A wisp only ever appears where it isn&rsquo;t wanted, and vanishes the moment it&rsquo;s wanted too much. Professor Marsh says every first-year tries to grab it. None of them do &mdash; not on the first night, anyway.</p>
+
+  <div class="arena-frame">
+    <canvas id="arena" aria-label="A dark arena containing a small glowing wisp that reacts to your cursor"></canvas>
+  </div>
+
+  <p class="hint" id="hint"></p>
+</div>
+
+<div class="reveal-overlay" id="reveal-overlay">
+  <div class="reveal-card">
+    <h2>Caught.</h2>
+    <p id="reveal-message"></p>
+    <div class="flag-value" id="flag-value"></div>
+  </div>
+</div>
+
+<footer>Charms Wing &middot; Prof. Thessaly Marsh</footer>
+
+<script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>
