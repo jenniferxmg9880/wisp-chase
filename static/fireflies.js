@@ -1,8 +1,3 @@
-/* ============================================================
-   Ambient forest fireflies — purely decorative background layer.
-   Distinct from the game's wisp (static/game.js): these drift
-   lazily and flicker; they are not interactive.
-   ============================================================ */
 (function () {
   "use strict";
 
