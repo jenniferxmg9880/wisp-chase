@@ -1,26 +1,3 @@
-"""
-The Restless Wisp — Charms Wing
---------------------------------
-A browser mini-game CTF challenge. The flag is intentionally kept
-server-side and is never present anywhere in the HTML/CSS/JS the
-client downloads — so "view source" / "search the JS for WICYS{"
-finds nothing. The flag is only released by POST /api/catch, and
-only once a few light plausibility checks pass.
-
-HONESTY NOTE for the challenge author (this docstring is server-side
-only, players never see it): this is NOT hardened anti-cheat. A
-determined player who opens the Network tab, catches the wisp once
-legitimately, and inspects the successful response will obviously
-see the flag in plaintext there — that's fine, that's just "playing
-the game and reading the result." What this design actually prevents
-is the trivial version of cheesing: reading static source/JS files
-before ever playing. A very determined player could also try to
-replay/forge the POST request from the console after simply waiting
-out the minimum elapsed time — the engagement-count check raises
-that bar somewhat but isn't unbeatable. For a fun class CTF, this is
-a reasonable, proportionate amount of friction.
-"""
-
 from flask import Flask, render_template, session, jsonify, request
 import time
 import os
