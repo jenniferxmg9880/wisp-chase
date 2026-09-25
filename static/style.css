@@ -207,3 +207,23 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .hint, .reveal-overlay, .reveal-card { transition: none; }
 }
+
+.tree-sway {
+  animation: sway 7s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.tree-sway.sway-b { animation-duration: 9s; animation-delay: -2s; }
+.tree-sway.sway-c { animation-duration: 6s; animation-delay: -4s; }
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-0.6deg); }
+  50% { transform: rotate(0.6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tree-sway { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint, .reveal-overlay, .reveal-card { transition: none; }
+}
