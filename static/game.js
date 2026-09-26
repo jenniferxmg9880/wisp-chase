@@ -99,16 +99,27 @@
 
     var dx = wisp.x - mouse.x, dy = wisp.y - mouse.y;
     var dist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+    var calm = 1 - wariness;
 
-    if (mouse.active && dist < FLEE_RADIUS) {
-      var fleeStrength = (1 - dist / FLEE_RADIUS) * FLEE_FORCE * wariness;
-      wisp.vx += (dx / dist) * fleeStrength * dt / 1000;
-      wisp.vy += (dy / dist) * fleeStrength * dt / 1000;
+    if (mouse.active) {
+      // flee: only kicks in at close range, and only while still wary
+      if (dist < FLEE_RADIUS && wariness > 0) {
+        var fleeStrength = (1 - dist / FLEE_RADIUS) * FLEE_FORCE * wariness;
+        wisp.vx += (dx / dist) * fleeStrength * dt / 1000;
+        wisp.vy += (dy / dist) * fleeStrength * dt / 1000;
+      }
 
-      var calm = 1 - wariness;
+      // calm-drift toward the cursor: works from ANY distance once calm
+      // enough — this no longer requires the wisp to already be close
       if (calm > 0.15) {
         wisp.vx -= (dx / dist) * DRIFT_FORCE * calm * dt / 1000;
         wisp.vy -= (dy / dist) * DRIFT_FORCE * calm * dt / 1000;
+      }
+
+      // still wary and out of flee range: idle wander
+      if (dist >= FLEE_RADIUS && calm <= 0.15) {
+        wisp.vx += (Math.random() - 0.5) * 18 * dt / 1000;
+        wisp.vy += (Math.random() - 0.5) * 18 * dt / 1000;
       }
     } else {
       wisp.vx += (Math.random() - 0.5) * 18 * dt / 1000;
