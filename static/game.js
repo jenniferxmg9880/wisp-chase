@@ -34,7 +34,7 @@
   var REQUIRED_STILL_MS = 1600;   
   var CATCH_RADIUS = 26;
   var CATCH_WARINESS = 0.18;      
-  var DRIFT_FORCE = 75;           
+  var DRIFT_FORCE = 140;           
   var wariness = 1;
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
