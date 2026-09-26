@@ -65,19 +65,23 @@
   var hintTimer = 0;
   var chaseTime = 0; 
 
+  function setHint(text) {
+    if (!hintEl) return;
+    hintEl.textContent = text;
+    hintEl.classList.add("is-visible");
+  }
+
   function updateHints(dt) {
     if (wariness > 0.6) {
       chaseTime += dt;
     }
     if (chaseTime > 11000 && hintTimer === 0) {
       hintTimer = 1;
-      hintEl.textContent = "Perhaps chasing is not how one catches light.";
-      hintEl.classList.add("is-visible");
+      setHint("Perhaps chasing is not how one catches light.");
     }
     if (chaseTime > 24000 && hintTimer === 1) {
       hintTimer = 2;
-      hintEl.textContent = "Hold still long enough, and it may mistake you for something safe.";
-      hintEl.classList.add("is-visible");
+      setHint("Hold still long enough, and it may mistake you for something safe.");
     }
   }
 
@@ -170,19 +174,17 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (data.ok) {
-          revealMsgEl.textContent = "It stopped fleeing. It looked at you instead.";
-          flagValueEl.textContent = data.flag;
-          overlay.classList.add("is-visible");
+          if (revealMsgEl) revealMsgEl.textContent = "It stopped fleeing. It looked at you instead.";
+          if (flagValueEl) flagValueEl.textContent = data.flag;
+          if (overlay) overlay.classList.add("is-visible");
         } else {
           caught = false;
-          hintEl.textContent = data.message || "Not yet.";
-          hintEl.classList.add("is-visible");
+          setHint(data.message || "Not yet.");
         }
       })
       .catch(function () {
         caught = false;
-        hintEl.textContent = "Something in the ether interrupted that. Try again.";
-        hintEl.classList.add("is-visible");
+        setHint("Something in the ether interrupted that. Try again.");
       });
   }
 
